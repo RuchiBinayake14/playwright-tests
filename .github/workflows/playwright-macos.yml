@@ -30,3 +30,10 @@ jobs:
 
       - name: Run Playwright Test
         run: mvn test
+
+      - name: Upload screenshot proof
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-screenshot
+          path: test-results/screenshot.png

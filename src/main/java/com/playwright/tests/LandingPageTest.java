@@ -1,5 +1,7 @@
 package com.playwright.tests;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.microsoft.playwright.Browser;
@@ -12,23 +14,29 @@ public class LandingPageTest {
         try (Playwright playwright = Playwright.create()) {
             String url = "https://dev.egacademy.org.in/index";
 
+            // Create results directory if not exists
+            Path resultDir = Paths.get("test-results");
+            if (!Files.exists(resultDir)) {
+                Files.createDirectories(resultDir);
+            }
+
             // Chromium (Chrome)
             Browser chromium = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
             Page chromiumPage = chromium.newPage();
             chromiumPage.navigate(url);
-            checkPageTitleAndScreenshot(chromiumPage, "Chromium", "chromium-screenshot.png");
+            checkPageTitleAndScreenshot(chromiumPage, "Chromium", "test-results/chromium-screenshot.png");
 
             // Firefox
             Browser firefox = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
             Page firefoxPage = firefox.newPage();
             firefoxPage.navigate(url);
-            checkPageTitleAndScreenshot(firefoxPage, "Firefox", "firefox-screenshot.png");
+            checkPageTitleAndScreenshot(firefoxPage, "Firefox", "test-results/firefox-screenshot.png");
 
             // WebKit
             Browser webkit = playwright.webkit().launch(new BrowserType.LaunchOptions().setHeadless(false));
             Page webkitPage = webkit.newPage();
             webkitPage.navigate(url);
-            checkPageTitleAndScreenshot(webkitPage, "WebKit", "webkit-screenshot.png");
+            checkPageTitleAndScreenshot(webkitPage, "WebKit", "test-results/webkit-screenshot.png");
 
             // Microsoft Edge
             Browser edge = playwright.chromium().launch(new BrowserType.LaunchOptions()
@@ -36,15 +44,17 @@ public class LandingPageTest {
                 .setHeadless(false));
             Page edgePage = edge.newPage();
             edgePage.navigate(url);
-            checkPageTitleAndScreenshot(edgePage, "Microsoft Edge", "edge-screenshot.png");
+            checkPageTitleAndScreenshot(edgePage, "Microsoft Edge", "test-results/edge-screenshot.png");
 
-            // Wait so all pages stay open for a bit
+            // Keep browsers open for a few seconds
             edgePage.waitForTimeout(9000);
 
             chromium.close();
             firefox.close();
             webkit.close();
             edge.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -58,7 +68,7 @@ public class LandingPageTest {
             System.out.println(" [" + browserName + "] Landing page did NOT load as expected.");
         }
 
-        // Take and save screenshot
+        // Save screenshot
         page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(screenshotFileName)));
     }
 }
