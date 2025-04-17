@@ -29,11 +29,11 @@ jobs:
         run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
 
       - name: Run Playwright Test
-        run: mvn test
+        run: mvn exec:java
 
-      - name: Upload screenshot proof
-        if: always()
+      - name: Upload screenshots
         uses: actions/upload-artifact@v3
         with:
-          name: playwright-screenshot
-          path: test-results/screenshot.png
+          name: test-screenshots
+          path: |
+            *.png
