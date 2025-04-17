@@ -30,6 +30,16 @@ jobs:
       - name: Run Playwright Test
         run: mvn test
 
+      - name: Upload Screenshots (macOS)
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-screenshots
+          path: |
+            chromium-screenshot.png
+            firefox-screenshot.png
+            webkit-screenshot.png
+            edge-screenshot.png
+
   test-on-linux:
     runs-on: ubuntu-latest
     steps:
@@ -52,3 +62,13 @@ jobs:
 
       - name: Run Playwright Test
         run: mvn test
+
+      - name: Upload Screenshots (Linux)
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-screenshots
+          path: |
+            chromium-screenshot.png
+            firefox-screenshot.png
+            webkit-screenshot.png
+            edge-screenshot.png
