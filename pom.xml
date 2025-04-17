@@ -11,14 +11,14 @@
   <url>http://maven.apache.org</url>
 
   <dependencies>
-    <!-- Playwright dependency -->
+    <!-- Playwright -->
     <dependency>
       <groupId>com.microsoft.playwright</groupId>
       <artifactId>playwright</artifactId>
       <version>1.42.0</version>
     </dependency>
 
-    <!-- JUnit 5 dependency -->
+    <!-- JUnit Jupiter -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -29,7 +29,7 @@
 
   <build>
     <plugins>
-      <!-- Compiler plugin to set Java version -->
+      <!-- Java Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -40,7 +40,7 @@
         </configuration>
       </plugin>
 
-      <!-- Plugin to run your custom Java class like a main method -->
+      <!-- Exec Plugin -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -50,17 +50,36 @@
         </configuration>
       </plugin>
 
-      <!-- Plugin to run JUnit 5 tests -->
+      <!-- Surefire Plugin to run JUnit Tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0</version>
-        <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
-        </configuration>
+      </plugin>
+
+      <!-- Surefire Report Plugin to generate HTML report -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+
+      <!-- Maven Site Plugin to build site and generate report -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.12.1</version>
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
