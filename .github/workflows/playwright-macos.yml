@@ -1,41 +1,42 @@
-name: Run Playwright Tests on Linux
+name: Test on Linux
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   test-on-linux:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Java
+      - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
-          distribution: temurin
-          java-version: '17'
+          distribution: 'temurin'
+          java-version: 17
 
       - name: Set up Maven
         uses: s4u/setup-maven-action@v1.11.0
         with:
-          maven-version: '3.8.6'
+          maven-version: '3.9.5'
 
-      - name: Install Playwright Browsers
-        run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
+      - name: Install Playwright and Browsers
+        run: |
+          mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install"
 
-      - name: Run Playwright Test
+      - name: Run Tests on Linux
         run: mvn test
 
-      - name: Upload screenshots from Linux
-  uses: actions/upload-artifact@v4
-  with:
-    name: linux-screenshots
-    path: |
-      chromium-screenshot.png
-      firefox-screenshot.png
-      webkit-screenshot.png
-
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-screenshots
+          path: |
+            chromium-screenshot.png
+            firefox-screenshot.png
+            webkit-screenshot.png
