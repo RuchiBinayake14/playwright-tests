@@ -31,10 +31,11 @@ jobs:
         run: mvn test
 
       - name: Upload screenshots from Linux
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux-screenshots
-          path: |
-            chromium-screenshot.png
-            firefox-screenshot.png
-            webkit-screenshot.png
+  uses: actions/upload-artifact@v4
+  with:
+    name: linux-screenshots
+    path: |
+      chromium-screenshot.png
+      firefox-screenshot.png
+      webkit-screenshot.png
+
