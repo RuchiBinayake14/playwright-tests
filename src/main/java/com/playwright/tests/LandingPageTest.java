@@ -72,3 +72,6 @@ public class LandingPageTest {
         page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(screenshotFileName)));
     }
 }
+
+//for run this project 
+// mvn compile exec:java -Dexec.mainClass="com.playwright.tests.LandingPageTest" run this in cmd 
