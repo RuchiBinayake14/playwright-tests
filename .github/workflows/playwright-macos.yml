@@ -1,4 +1,4 @@
-name: Playwright Test on macOS
+name: Run Playwright Test
 
 on:
   push:
@@ -9,28 +9,24 @@ on:
 jobs:
   test-on-macos:
     runs-on: macos-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Java
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Maven
+        uses: s4u/setup-maven-action@v1.11.0
         with:
-          node-version: '18'
+          maven-version: '3.8.6'
 
-      - name: Install Playwright CLI tools
-        run: |
-          npm install -g playwright
-          playwright install --with-deps
-
-      - name: Install Maven dependencies
-        run: mvn install
+      - name: Install Playwright Browsers
+        run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
 
       - name: Run Playwright Test
-        run: mvn compile exec:java -Dexec.mainClass="com.playwright.tests.LandingPageTest"
+        run: mvn test
