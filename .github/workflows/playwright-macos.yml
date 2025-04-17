@@ -32,7 +32,7 @@ jobs:
         run: mvn exec:java
 
       - name: Upload screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-screenshots
           path: |
