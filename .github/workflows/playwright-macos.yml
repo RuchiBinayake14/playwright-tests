@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-on-linux:
-    runs-on: ubuntu-latest   # Updated to Ubuntu for compatibility
+    runs-on: ubuntu-latest   # Ensure you're using the latest Ubuntu image
 
     steps:
       - name: Checkout repository
@@ -32,10 +32,10 @@ jobs:
         run: mvn test
 
       - name: Upload screenshots from Linux
-        uses: actions/upload-artifact@v2  # Changed to v2 to avoid issues with v3
+        uses: actions/upload-artifact@v2.3.0  # Updated to the latest v2.3.0
         with:
           name: linux-screenshots
           path: |
-            screenshots/chromium-screenshot.png   # Make sure the path is correct based on where your screenshots are saved
+            screenshots/chromium-screenshot.png   # Adjust paths if necessary
             screenshots/firefox-screenshot.png
             screenshots/webkit-screenshot.png
