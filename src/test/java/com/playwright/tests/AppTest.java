@@ -9,7 +9,9 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Page.NavigateOptions;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.options.WaitUntilState;
 
 public class AppTest {
     static Playwright playwright;
@@ -31,9 +33,14 @@ public class AppTest {
     void testWebsiteIsReachable() {
         BrowserContext context = browser.newContext();
         Page page = context.newPage();
-        page.navigate("https://dev.egacademy.org.in/index");
 
-        // ✅ Correct the actual page title
+        // ✅ Set timeout to 60 seconds and wait for DOM only
+        page.navigate("https://dev.egacademy.org.in/index", 
+            new NavigateOptions()
+                .setTimeout(60000)
+                .setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
+        );
+
         assertEquals("EG International Academy", page.title());
     }
 }
