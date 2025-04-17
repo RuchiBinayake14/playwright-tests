@@ -1,4 +1,4 @@
-name: Run Playwright Test
+name: Run Playwright Tests on Multiple OS
 
 on:
   push:
@@ -9,7 +9,6 @@ on:
 jobs:
   test-on-macos:
     runs-on: macos-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -29,11 +28,27 @@ jobs:
         run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
 
       - name: Run Playwright Test
-        run: mvn exec:java
+        run: mvn test
 
-      - name: Upload screenshots
-        uses: actions/upload-artifact@v4
+  test-on-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          name: test-screenshots
-          path: |
-            *.png
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Maven
+        uses: s4u/setup-maven-action@v1.11.0
+        with:
+          maven-version: '3.8.6'
+
+      - name: Install Playwright Browsers
+        run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
+
+      - name: Run Playwright Test
+        run: mvn test
